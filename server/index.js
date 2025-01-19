@@ -22,7 +22,7 @@ const app = express();
 // Middleware configuration
 app.use(
     cors({
-        origin: 'http://localhost:3000', // Frontend URL
+        origin: 'https://ecommerce-frontend-one-dun.vercel.app', // Frontend URL
         methods: 'GET,POST,PUT,DELETE',
         credentials: true, // Allow cookies and credentials
     })
@@ -55,14 +55,14 @@ app.get(
     '/auth/google/callback',
     passport.authenticate('google', { failureRedirect: '/login' }),
     (req, res) => {
-        res.redirect('http://localhost:3000'); // Redirect to frontend after login
+        res.redirect('https://ecommerce-frontend-one-dun.vercel.app/'); // Redirect to frontend after login
     }
 );
 
 app.get('/auth/logout', (req, res) => {
     req.logout((err) => {
         if (err) return res.status(500).json({ message: 'Logout failed' });
-        res.redirect('http://localhost:3000'); // Redirect to frontend after logout
+        res.redirect('https://ecommerce-frontend-one-dun.vercel.app/'); // Redirect to frontend after logout
     });
 });
 
