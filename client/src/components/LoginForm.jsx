@@ -20,7 +20,7 @@ const LoginForm = () => {
   const handleGoogleSuccess = async (credentialResponse) => {
     try {
       const tokenId = credentialResponse.credential;
-      const response = await fetch("https://ecommerce-backend-olive-ten.vercel.app//api/auth/google", {
+      const response = await fetch("https://ecommerce-backend-olive-ten.vercel.app/api/auth/google", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
