@@ -55,14 +55,23 @@ app.get(
     '/auth/google/callback',
     passport.authenticate('google', { failureRedirect: '/login' }),
     (req, res) => {
-        res.redirect('https://ecommerce-frontend-one-dun.vercel.app/'); // Redirect to frontend after login
+        // Redirect based on user role
+        const role = req.user.role;
+        if (role === 'admin') {
+            res.redirect('https://ecommerce-frontend-one-dun.vercel.app/admin-dashboard');
+        } else if (role === 'user') {
+            res.redirect('https://ecommerce-frontend-one-dun.vercel.app/products');
+        } else {
+            res.redirect('https://ecommerce-frontend-one-dun.vercel.app/login');
+        }
     }
 );
 
+// Logout route
 app.get('/auth/logout', (req, res) => {
     req.logout((err) => {
         if (err) return res.status(500).json({ message: 'Logout failed' });
-        res.redirect('https://ecommerce-frontend-one-dun.vercel.app/'); // Redirect to frontend after logout
+        res.redirect('https://ecommerce-frontend-one-dun.vercel.app'); 
     });
 });
 

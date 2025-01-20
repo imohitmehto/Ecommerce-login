@@ -17,37 +17,40 @@ const LoginForm = () => {
   const navigate = useNavigate(); // For redirection
 
   // Handle Google Login Success
-  const handleGoogleSuccess = async (credentialResponse) => {
-    try {
-      const tokenId = credentialResponse.credential;
-      const response = await fetch("https://ecommerce-backend-olive-ten.vercel.app/api/auth/google", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ token: tokenId }),
-      });
+    const handleGoogleSuccess = async (credentialResponse) => {
+      try {
+        const tokenId = credentialResponse.credential;
+        const response = await fetch("https://ecommerce-backend-olive-ten.vercel.app/api/auth/google", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ token: tokenId }),
+        });
 
-      const data = await response.json();
-      if (response.ok) {
-        // Store token and role
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("role", data.role);
+        const data = await response.json();
+        if (response.ok) {
+          // Store token and role
+          localStorage.setItem("token", data.token);
+          localStorage.setItem("role", data.role);
 
-        // Redirect based on role
-        if (data.role === "admin") {
-          navigate("/admin-dashboard");
-        } else if (data.role === "user") {
-          navigate("/products");
+          // Redirect based on role
+          if (data.role === "admin") {
+            navigate("/admin-dashboard");
+          } else if (data.role === "user") {
+            navigate("/products");
+          } else {
+            setMessage("Invalid role received from server");
+            console.error("Invalid role:", data.role);
+          }
+        } else {
+          setMessage(data.message || "Google login failed");
         }
-      } else {
-        setMessage(data.message || "Google login failed");
+      } catch (error) {
+        console.error("Google login error:", error);
+        setMessage("Error during Google login");
       }
-    } catch (error) {
-      console.error("Google login error:", error);
-      setMessage("Error during Google login");
-    }
-  };
+    };
 
   // Handle Google Login Failure
   const handleGoogleFailure = (error) => {

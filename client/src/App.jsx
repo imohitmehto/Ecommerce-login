@@ -3,18 +3,22 @@ import {
   Routes,
   Route,
   Navigate,
+  Link
 } from "react-router-dom";
 import SignupForm from "./components/SignupForm";
 import LoginForm from "./components/LoginForm";
 import AdminDashboard from "./components/AdminDashboard";
 import ProductScreen from "./components/ProductScreen";
 import PropTypes from "prop-types";
-import { AppBar, Toolbar, Typography } from "@mui/material";
+
+import { AppBar, Toolbar, Typography, Button } from "@mui/material";
 import "./App.css";
+
+const userRole = localStorage.getItem("role");
 
 // Private Route Component
 const PrivateRoute = ({ role, children }) => {
-  const token = localStorage.getItem("token"); 
+  const token = localStorage.getItem("token");
   const userRole = localStorage.getItem("role");
   if (!token) {
     return <Navigate to="/login" />;
@@ -40,16 +44,27 @@ function App() {
         <AppBar position="static" color="primary">
           <Toolbar>
             <Typography variant="h6" className="flex-grow">
-              E commerce
+              E-commerce
             </Typography>
-            {/* <Box>
-              <Button color="inherit" component={Link} to="/login">
-                Login
+            {userRole === "admin" && (
+              <Button color="inherit" component={Link} to="/admin-dashboard">
+                Dashboard
               </Button>
-              <Button color="inherit" component={Link} to="/signup">
-                Signup
+            )}
+            {userRole === "user" && (
+              <Button color="inherit" component={Link} to="/products">
+                Products
               </Button>
-            </Box> */}
+            )}
+            <Button
+              color="inherit"
+              onClick={() => {
+                localStorage.clear();
+                navigate("/login");
+              }}
+            >
+              Logout
+            </Button>
           </Toolbar>
         </AppBar>
 
@@ -62,7 +77,7 @@ function App() {
 
             {/* Protected Routes */}
             <Route
-              path="/dashboard"
+              path="/admin-dashboard"
               element={
                 <PrivateRoute role="admin">
                   <AdminDashboard />
@@ -79,7 +94,20 @@ function App() {
             />
 
             {/* Default Route */}
-            <Route path="*" element={<Navigate to="/login" />} />
+            <Route
+              path="*"
+              element={
+                localStorage.getItem("token") ? (
+                  localStorage.getItem("role") === "admin" ? (
+                    <Navigate to="/admin-dashboard" />
+                  ) : (
+                    <Navigate to="/products" />
+                  )
+                ) : (
+                  <Navigate to="/login" />
+                )
+              }
+            />
           </Routes>
         </div>
       </div>
