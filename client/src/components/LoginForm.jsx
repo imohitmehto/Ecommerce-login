@@ -20,7 +20,7 @@ const LoginForm = () => {
   const handleGoogleSuccess = async (credentialResponse) => {
     try {
       const tokenId = credentialResponse.credential;
-      const response = await fetch("https://ecommerce-server-demo.vercel.app/api/auth/google", {
+      const response = await fetch("https://ecommerce-backend-l9kd.onrender.com/api/auth/google", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -57,7 +57,7 @@ const LoginForm = () => {
   const handleEmailPasswordLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("https://ecommerce-server-demo.vercel.app/api/auth/login", {
+      const response = await fetch("https://ecommerce-backend-l9kd.onrender.com/api/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
