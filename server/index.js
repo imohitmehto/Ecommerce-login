@@ -22,7 +22,7 @@ const app = express();
 // Middleware configuration
 app.use(
     cors({
-        origin: 'https://ecommerce-frontend-one-dun.vercel.app', // Frontend URL
+        origin: 'https://ecommerce-client-demo.vercel.app', // Frontend URL
         methods: 'GET,POST,PUT,DELETE',
         credentials: true, // Allow cookies and credentials
     })
@@ -58,11 +58,11 @@ app.get(
         // Redirect based on user role
         const role = req.user.role;
         if (role === 'admin') {
-            res.redirect('https://ecommerce-frontend-one-dun.vercel.app/admin-dashboard');
+            res.redirect('https://ecommerce-client-demo.vercel.app/admin-dashboard');
         } else if (role === 'user') {
-            res.redirect('https://ecommerce-frontend-one-dun.vercel.app/products');
+            res.redirect('https://ecommerce-client-demo.vercel.app/products');
         } else {
-            res.redirect('https://ecommerce-frontend-one-dun.vercel.app/login');
+            res.redirect('https://ecommerce-client-demo.vercel.app/login');
         }
     }
 );
@@ -71,7 +71,7 @@ app.get(
 app.get('/auth/logout', (req, res) => {
     req.logout((err) => {
         if (err) return res.status(500).json({ message: 'Logout failed' });
-        res.redirect('https://ecommerce-frontend-one-dun.vercel.app'); 
+        res.redirect('https://ecommerce-client-demo.vercel.app'); 
     });
 });
 

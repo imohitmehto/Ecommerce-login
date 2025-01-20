@@ -10,7 +10,7 @@ const SignupForm = () => {
     password: "",
   });
   const [message, setMessage] = useState("");
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -20,9 +20,13 @@ const SignupForm = () => {
     e.preventDefault();
     try {
       const response = await signup(formData);
-      const { message, role } = response.data;
+      const { message, token, role } = response.data;
+  
+      localStorage.setItem("token", token);
+      localStorage.setItem("role", role);
+  
       setMessage(message || "Signup successful");
-
+  
       navigate("/products");
     } catch (error) {
       const errorMessage =
@@ -31,7 +35,7 @@ const SignupForm = () => {
       setMessage(errorMessage);
     }
   };
-
+  
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <Card
